@@ -1,10 +1,10 @@
 pipeline {
     agent any
-    // environment {
-    //     DOCKER_HUB_REPO = "dataguru97/studybuddy"
-    //     DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
-    //     IMAGE_TAG = "v${BUILD_NUMBER}"
-    // }
+    environment {
+        DOCKER_HUB_REPO = "manishray020/studybuddy"
+        DOCKER_HUB_CREDENTIALS_ID = "dockerhub-token"
+        IMAGE_TAG = "v${BUILD_NUMBER}"
+    }
     stages {
         stage('Checkout Github') {
             steps {
@@ -12,24 +12,24 @@ pipeline {
                 heckout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/Maniwalkaushik90/Study-Buddy-AI-Assistant.git']])
             }
         }        
-        // stage('Build Docker Image') {
-        //     steps {
-        //         script {
-        //             echo 'Building Docker image...'
-        //             dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
-        //         }
-        //     }
-        // }
-        // stage('Push Image to DockerHub') {
-        //     steps {
-        //         script {
-        //             echo 'Pushing Docker image to DockerHub...'
-        //             docker.withRegistry('https://registry.hub.docker.com' , "${DOCKER_HUB_CREDENTIALS_ID}") {
-        //                 dockerImage.push("${IMAGE_TAG}")
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo 'Building Docker image...'
+                    dockerImage = docker.build("${DOCKER_HUB_REPO}:${IMAGE_TAG}")
+                }
+            }
+        }
+        stage('Push Image to DockerHub') {
+            steps {
+                script {
+                    echo 'Pushing Docker image to DockerHub...'
+                    docker.withRegistry('https://registry.hub.docker.com' , "${DOCKER_HUB_CREDENTIALS_ID}") {
+                        dockerImage.push("${IMAGE_TAG}")
+                    }
+                }
+            }
+        }
         // stage('Update Deployment YAML with New Tag') {
         //     steps {
         //         script {
