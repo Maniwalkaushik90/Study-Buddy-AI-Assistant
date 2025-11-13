@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout Github') {
             steps {
                 echo 'Checking out code from GitHub...'
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/Maniwalkaushik90/Study-Buddy-AI-Assistant.git']])
+                heckout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token', url: 'https://github.com/Maniwalkaushik90/Study-Buddy-AI-Assistant.git']])
             }
         }        
         // stage('Build Docker Image') {
